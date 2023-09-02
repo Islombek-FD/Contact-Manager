@@ -1,6 +1,6 @@
-package uz.practice;
+package uz.practice.dto;
 
-public class Contact {
+public class ContactDTO {
     private Integer id;
     private String name;
     private String surname;

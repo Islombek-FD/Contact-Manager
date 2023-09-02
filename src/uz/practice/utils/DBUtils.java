@@ -11,13 +11,11 @@ public class DBUtils {
     }
 
     public static Connection getConnection() {
-        Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/contact_manager", "postgres", "2001");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/contact_manager", "postgres", "2001");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return connection;
     }
 
     public static void createDatabase() {

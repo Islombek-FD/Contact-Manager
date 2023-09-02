@@ -1,5 +1,6 @@
-package uz.practice;
+package uz.practice.repository;
 
+import uz.practice.dto.ContactDTO;
 import uz.practice.utils.DBUtils;
 
 import java.sql.*;
@@ -8,20 +9,20 @@ import java.util.List;
 
 public class ContactRepository {
 
-    public List<Contact> getList() {
-        List<Contact> response = new LinkedList<>();
+    public List<ContactDTO> getList() {
+        List<ContactDTO> response = new LinkedList<>();
         Connection connection = null;
         try {
             connection = DBUtils.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from contact;");
             while (resultSet.next()) {
-                Contact contact = new Contact();
-                contact.setId(resultSet.getInt("id"));
-                contact.setName(resultSet.getString("name"));
-                contact.setSurname(resultSet.getString("surname"));
-                contact.setPhone(resultSet.getString("phone"));
-                response.add(contact);
+                ContactDTO contactDTO = new ContactDTO();
+                contactDTO.setId(resultSet.getInt("id"));
+                contactDTO.setName(resultSet.getString("name"));
+                contactDTO.setSurname(resultSet.getString("surname"));
+                contactDTO.setPhone(resultSet.getString("phone"));
+                response.add(contactDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,8 +38,8 @@ public class ContactRepository {
         return response;
     }
 
-    public Contact getByPhone(String phone) {
-        Contact response = null;
+    public ContactDTO getByPhone(String phone) {
+        ContactDTO response = null;
         Connection connection = null;
         try {
             connection = DBUtils.getConnection();
@@ -47,12 +48,12 @@ public class ContactRepository {
             preparedStatement.setString(1, phone);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Contact contact = new Contact();
-                contact.setId(resultSet.getInt("id"));
-                contact.setName(resultSet.getString("name"));
-                contact.setSurname(resultSet.getString("surname"));
-                contact.setPhone(resultSet.getString("phone"));
-                response = contact;
+                ContactDTO contactDTO = new ContactDTO();
+                contactDTO.setId(resultSet.getInt("id"));
+                contactDTO.setName(resultSet.getString("name"));
+                contactDTO.setSurname(resultSet.getString("surname"));
+                contactDTO.setPhone(resultSet.getString("phone"));
+                response = contactDTO;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,16 +69,16 @@ public class ContactRepository {
         return response;
     }
 
-    public boolean save(Contact contact) {
+    public boolean save(ContactDTO contactDTO) {
         boolean response = false;
         Connection connection = null;
         try {
             connection = DBUtils.getConnection();
             String sql = "insert into contact(name, surname, phone) values(?, ?, ?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, contact.getName());
-            preparedStatement.setString(2, contact.getSurname());
-            preparedStatement.setString(3, contact.getPhone());
+            preparedStatement.setString(1, contactDTO.getName());
+            preparedStatement.setString(2, contactDTO.getSurname());
+            preparedStatement.setString(3, contactDTO.getPhone());
             preparedStatement.executeUpdate();
             response = true;
         } catch (SQLException e) {
@@ -118,8 +119,8 @@ public class ContactRepository {
         return response;
     }
 
-    public List<Contact> search(String query) {
-        List<Contact> response = new LinkedList<>();
+    public List<ContactDTO> search(String query) {
+        List<ContactDTO> response = new LinkedList<>();
         Connection connection = null;
         try {
             connection = DBUtils.getConnection();
@@ -131,12 +132,12 @@ public class ContactRepository {
             preparedStatement.setString(3, param);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Contact contact = new Contact();
-                contact.setId(resultSet.getInt("id"));
-                contact.setName(resultSet.getString("name"));
-                contact.setSurname(resultSet.getString("surname"));
-                contact.setPhone(resultSet.getString("phone"));
-                response.add(contact);
+                ContactDTO contactDTO = new ContactDTO();
+                contactDTO.setId(resultSet.getInt("id"));
+                contactDTO.setName(resultSet.getString("name"));
+                contactDTO.setSurname(resultSet.getString("surname"));
+                contactDTO.setPhone(resultSet.getString("phone"));
+                response.add(contactDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();
